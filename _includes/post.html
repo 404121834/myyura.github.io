@@ -3,6 +3,7 @@
 </div>
 	
 <article>
+	<div class="col-sm-12">
 	<span class="post-date">
 	   {% assign d = page.date | date: "%d" | plus:'0' %}
 	   {{ page.date | date: "%B" }} 
@@ -81,13 +82,13 @@
 		  {% endif %}
 		</ul>
 		<hr/>
-<!-- 	</div> -->
+	</div>
 	
 	<div class="col-sm-2 sidebar-2"></div>
 </article>
 <div class="clearfix"></div>
 
-<div class="col-sm-2">
+<div class="col-sm-12">
 <h2 id="comments">Comments</h2>
 {% include gitment.html %}
 </div>
