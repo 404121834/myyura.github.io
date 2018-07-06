@@ -4,11 +4,11 @@
 <script>
 var gitment = new Gitment({
   id: '{{ page.date }}',
-  owner: '404121834',
-  repo: 'test_myyura.github.io',
+  owner: '{{ site.gitment_owner }}',
+  repo: '{{ site.gitment_repo }}',
   oauth: {
-    client_id: 'da666337161af191a650',
-    client_secret: '0fced98ea25782128aa557b29d05488c29f23f07',
+    client_id: '{{ site.gitment_client_id }}',
+    client_secret: '{{ site.gitment_client_secret }}',
   },
 })
 gitment.render('container')
