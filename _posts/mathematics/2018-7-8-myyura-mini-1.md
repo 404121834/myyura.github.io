@@ -166,8 +166,8 @@ $$
 
 $$
 \begin{align}
-\sum_{k=0}^n \binom{n-k}{k} &= \sum_{k=0}^n \big(\binom{n-k-1}{k} + \binom{n-k-1}{k-1}\big) \\
-&= \sum_{k=0}^{n-1} \big(\binom{n-1-k}{k} + \binom{n-2 - (k-1)}{k-1}\big) \\
+\sum_{k=0}^n \binom{n-k}{k} &= \sum_{k=0}^n \huge(\binom{n-k-1}{k} + \binom{n-k-1}{k-1}\huge) \\
+&= \sum_{k=0}^{n-1} \huge(\binom{n-1-k}{k} + \binom{n-2 - (k-1)}{k-1}\huge) \\
 &= \sum_{k=0}^{n-1} \binom{n-1-k}{k} + \sum_{k=0}^{n-1} \binom{n-2-(k-1)}{k-1} \\
 &= \sum_{k=0}^{n-1} \binom{n-1-k}{k} + \sum_{l=0}{n-2} \binom{n-2-j}{j}
 \end{align}
