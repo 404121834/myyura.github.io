@@ -48,7 +48,7 @@ $$
 \begin{align}
 F_0 &= F_2 - F_1 \\
 F_1 &= F_3 - F_2 \\
-\vdots &= \vdots - \vdots \\
+&\vdots \\
 F_n &= F_{n+2} - F_{n+1}
 \end{align}
 $$
