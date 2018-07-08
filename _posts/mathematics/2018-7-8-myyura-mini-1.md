@@ -3,7 +3,7 @@ layout: post
 mathjax: true
 title: 数音・补[之一]
 category: mathematics
-tags: [mathematics, number-theory, integer-sequence]
+tags: mathematics, number-theory, integer-sequence
 ---
 
 斐波那契数列(Fibonacci number)
@@ -30,7 +30,7 @@ $$
 F_0 &= 0, \\
 F_1 &= 1, \\
 F_n &= F_{n-1} + F_{n-2}, n \ge 2
-\begin{align}
+\end{align}
 $$
 
 前几个斐波那契数为$0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, \cdots$.
@@ -49,7 +49,8 @@ $$
 F_0 &= F_2 - F_1 \\
 F_1 &= F_3 - F_2 \\
 \vdots &= \vdots - \vdots \\
-F_n = F_{n+2} - F_{n+1}
+F_n &= F_{n+2} - F_{n+1}
+\end{align}
 $$
 
 进行累加即可。
@@ -73,13 +74,13 @@ $$
 进而我们用\eqref{e2}减去\eqref{e3}，得到
 
 $$
-\begin{align}
-F_1 - F_2 + \cdots + F_{2n-1} - F_{2n} &= F_{2n} - F_{2n+1} + 1 \\
-F_1 - F_2 + \cdots + F_{2n-1} - F_{2n} + F_{2n+1} &= F_{2n}
-\end{align}
+F_1 - F_2 + \cdots + F_{2n-1} - F_{2n} = F_{2n} - F_{2n+1} + 1
+$$
+$$
+F_1 - F_2 + \cdots + F_{2n-1} - F_{2n} + F_{2n+1} = F_{2n} + 1
 $$
 
-即
+即有
 
 $$
 \begin{equation}
@@ -93,7 +94,7 @@ $$
 
 $$
 \begin{equation}
-F_n F_{n+1} - F_k F{n - 1} = F_n (F_{n+1} - F_{n-1}) = F_n^2
+F_n F_{n+1} - F_k F_{n - 1} = F_n (F_{n+1} - F_{n-1}) = F_n^2
 \label{e4} 
 \end{equation}
 $$
@@ -165,9 +166,10 @@ $$
 $$
 \begin{align}
 \sum_{k=0}^n \binom{n-k}{k} &= \sum_{k=0}^n (\binom{n-k-1}{k} + \binom{n-k-1}{k-1}) \\
-&= \sum_{k=0}^{n-1} (\binom{n-1-k}{k} + \binom{n-2 - (k-1)}{k-1})
-&= \sum_{k=0}^{n-1} \binom{n-1-k}{k} + \sum_{k=0}^{n-1} \binom{n-2-(k-1)}{k-1}
+&= \sum_{k=0}^{n-1} (\binom{n-1-k}{k} + \binom{n-2 - (k-1)}{k-1}) \\
+&= \sum_{k=0}^{n-1} \binom{n-1-k}{k} + \sum_{k=0}^{n-1} \binom{n-2-(k-1)}{k-1} \\
 &= \sum_{k=0}^{n-1} \binom{n-1-k}{k} + \sum_{l=0}{n-2} \binom{n-2-j}{j}
+\end{align}
 $$
 
 则有
@@ -181,6 +183,7 @@ $$
 $$
 \sum_{k=0}{n} \binom{n}{k} F_k = F_{2n}
 $$
+
 $$
 \sum_{k=0}{n} (-1)^k F_k = -F_n
 $$
@@ -202,9 +205,9 @@ $$
 
 $$
 \begin{align}
-F_4 &= 3,
-F_{4k+4} &= F_{4k+3} + F_{4k+2} 
-&= 2F_{4k+2} + F_{4k+1}
+F_4 &= 3, \\
+F_{4k+4} &= F_{4k+3} + F_{4k+2} \\
+&= 2F_{4k+2} + F_{4k+1} \\
 &= 3F_{4k+1} + 2F_{4k}
 \end{align}
 $$
