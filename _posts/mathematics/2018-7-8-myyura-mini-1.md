@@ -71,7 +71,7 @@ F_1 + F_3 + \cdots + F_{2n - 1} = F_{2n}
 \end{equation}
 $$
 
-进而我们用$\eqref{e2}减去$\eqref{e1}$，得到
+进而我们用$\eqref{e2}$减去$\eqref{e1}$，得到
 
 $$
 F_1 - F_2 + \cdots + F_{2n-1} - F_{2n} = F_{2n} - F_{2n+1} + 1
