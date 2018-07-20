@@ -3,7 +3,7 @@ layout: post
 mathjax: true
 title: 算一・素性测试
 category: algorithm
-tags: algorithm, primality-test
+tags: algorithm, primality-test, number-theory
 ---
 
 素性测试(Primality test)
@@ -23,9 +23,9 @@ def brute_force(n):
         return True
     return False
 {% endhighlight %}
-我选择使用Python来描述（实现）算法，一来是因为某种意义上其比较贴近于自然语言，二来我个人并不太喜欢用伪代码来描述一个算法，我更倾向于实现---许多伪代码都有这样一个毛病，它们往往将许多核心结构一带而过，使得阅读者将其复现的难度很大。
+由于近来正在学习如何玩蛇，因而我选择使用蟒蛇来描述（实现）算法---它其实还算不错，相对于贴近自然语言并且正被大量使用着。
 
-且很快就能注意到$2$和$3$的倍数是相当好剔除的---令$k$为一个自然数，则显然$6k$，$6k + 2$和$6k + 4$能够被$2$整除，且有$6k + 3$能够被$3$整除，因而一个改进的枚举算法已经呼之欲出了，即
+很快就能注意到$2$和$3$的倍数是相当好剔除的---令$k$为一个自然数，则显然$6k$，$6k + 2$和$6k + 4$能够被$2$整除，且有$6k + 3$能够被$3$整除，因而一个改进的枚举算法已经呼之欲出了，即
 {% highlight python %}
 def brute_force_6k(n):
     if n <= 3:
@@ -78,23 +78,29 @@ $$
 
 $$
 \begin{align}
-\ln (\sum_n \frac{1}{n}) &= \ln \prod_{\text{p is prime}} \frac{1}{1 - \frac{1}{p}} \\
+\ln (\sum_n \frac{1}{n}) &= \ln (\prod_{\text{p is prime}} \frac{1}{1 - \frac{1}{p}}) \\
 &= - \sum_{\text{p is prime}} {\ln (1-\frac{1}{p})} \\
 &= \sum_{\text{p is prime}} \frac{1}{p} + \sum_{\text{p is prime}} \frac{1}{2p^2} + \sum_{\text{p is prime}} \frac{1}{3p^3} + \cdots \\
 \end{align}
 $$
 
-即有
+则有
 
 $$
 \ln (\sum_n \frac{1}{n}) \sim \sum_{\text{p is prime}} \frac{1}{p}
+$$
+
+即
+
+$$
+\ln \ln n \sim \sum_{\text{p is prime}} \frac{1}{p}
 $$
 
 因而我们能知道，埃拉托斯特尼筛法的时间复杂度是$\mathcal{O}(n\log \log n)$。它并不是线性的，所以我们有可能有一个线性的算法来完成这件事情么？
 
 实际上，如果你足够细心，你会发现在埃拉托斯特尼筛法中，如果一个合数他是多个素数的倍数，那么我们会访问多次，浪费了时间。这意味着如果我们能够保证每个数只被筛选一次，我们就可以得到一个线性时间的算法。
 
-一个简单的想法便是，我们总是用一个合数的最小素因子将其筛掉。这样我们便不会访问一个合数多次了，实现同样非常简单，在此比较鼓励自己去试着思考并实现一下。[这里][esm]准备了一份并不那么优美的实现。
+一个简单的想法便是，**我们总是用一个合数的最小素因子将其筛掉**。这样我们便不会访问一个合数多次了，实现同样非常简单，在此比较鼓励自己去试着思考并实现一下。[这里][esm]准备了一份并不那么优美的实现。
 
 ## 2.加点骰子
 线性的筛法在理论上有着优异的渐进时间复杂度，这让人欣慰。很自然的，我们也希望拥有一个效率更高的单个数的素性测试的算法。这并不是一件容易的事，实际上素性测试究竟是不是$P$问题曾困扰了业界数十年。在这段时间里，人们于是退而求其次，开始寻求一些会“犯错”但却高效的算法。
@@ -120,7 +126,7 @@ def fermat(n, k):
             return False
     return True
 {% endhighlight %}
-其中$power(a, n-1, n)$会计算$a^{n-1} \mod n$，我们使用了一个被称之为快速幂取模的算法，他可以在对数时间内计算出$a^{n-1} \mod n$。受益于这个算法，费马素性检验算法的时间复杂度为$\mathcal{O}(\log n)$。
+其中$\text{power}(a, n-1, n)$会计算$a^{n-1} \mod n$，我们使用了一个被称之为快速幂取模的算法，他可以在对数时间内计算出$a^{n-1} \mod n$。受益于这个算法，费马素性检验算法的时间复杂度为$\mathcal{O}(\log n)$。
 
 费马小定理向我们保证了如果$n$是一个素数，那么算法总会回答“真”。但当$n$不是素数的时候，他却有可能犯错，一个可能的例子是$n = 341$，$a = 2$。
 
@@ -146,7 +152,11 @@ $$a^k \equiv -1  \pmod p$$
 > - $a^{2^kd}, a^{2^{k-1}d}, a^{2^{k-2}d},\cdots,a^d$中至少有一个与$-1$同余模$p$。
 > - $a^d \equiv 1 \pmod p$。
 
-被称之为米勒-拉宾素性检验的算法便基于此定理，[这里][mr]有一个此算法的实现，它的时间复杂度与费马素性检验相同，均为$\mathcal{O}(\log n)$。这个算法是目前应用最广泛的算法。
+被称之为米勒-拉宾素性检验的算法便基于此定理，[这里][mr]有一个此算法的实现，它的时间复杂度与费马素性检验相同，均为$\mathcal{O}(\log n)$。这个算法是目前应用最广泛的算法，这里还有一些关于这个算法的有趣结论。
+- 如果被测数小于$4759123141$，那么测试三个底数$2, 7$和$61$足矣。
+- 如果你每次都使用前$7$个素数进行测试，那么不大于$341550071728320$的数都会给出准确答案。
+- 如果选用$2,3,7,61$和$24251$作为底数，那么不大于$10^16$的数中仅有$46856248255981$无法给出准确答案。
+我在[matrix67][matrix67]的博文中看到这几个结论，可以想象的是，在一些OJ中，它们可以带来非常大的帮助。
 
 ## 3.后记
 事实上第一个被提出的素性测试随机算法名叫[Solovay–Strassen primality test][ss]，它稍有些繁琐，且实际效果并不出色，于漫长思考过后，我决定放弃了对这个算法的介绍。不过我仍然试着实现了它，参见[这里][ssi]。
@@ -161,3 +171,4 @@ $$a^k \equiv -1  \pmod p$$
 [mr]: https://github.com/Myyura/Exercises/blob/master/classic_problems/primality_test/miller_rabin.py
 [ss]: https://en.wikipedia.org/wiki/Solovay%E2%80%93Strassen_primality_test
 [ssi]: https://github.com/Myyura/Exercises/blob/master/classic_problems/primality_test/solovay_strassen.py
+[matrix67]: http://www.matrix67.com/
