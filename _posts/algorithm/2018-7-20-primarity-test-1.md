@@ -87,7 +87,7 @@ $$
 即有
 
 $$
-\ln (\sum_n \frac{1}{n}) \~ \sum_{\text{p is prime}} \frac{1}{p}
+\ln (\sum_n \frac{1}{n}) \sim \sum_{\text{p is prime}} \frac{1}{p}
 $$
 
 因而我们能知道，埃拉托斯特尼筛法的时间复杂度是$\mathcal{O}(n\log \log n)$。它并不是线性的，所以我们有可能有一个线性的算法来完成这件事情么？
