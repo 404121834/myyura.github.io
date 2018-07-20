@@ -79,7 +79,7 @@ $$
 $$
 \begin{align}
 \ln (\sum_n \frac{1}{n}) &= \ln \prod_{\text{p is prime}} \frac{1}{1 - \frac{1}{p}} \\
-&= - \sum_{\text{p is prime}} {\ln (1-\frac{1}{p})}
+&= - \sum_{\text{p is prime}} {\ln (1-\frac{1}{p})} \\
 &= \sum_{\text{p is prime}} \frac{1}{p} + \sum_{\text{p is prime}} \frac{1}{2p^2} + \sum_{\text{p is prime}} \frac{1}{3p^3} + \cdots \\
 \end{align}
 $$
@@ -87,7 +87,7 @@ $$
 即有
 
 $$
-\ln (\sum_n \frac{1}{n}) ~ \sum_{\text{p is prime}} \frac{1}{p}
+\ln (\sum_n \frac{1}{n}) \~ \sum_{\text{p is prime}} \frac{1}{p}
 $$
 
 因而我们能知道，埃拉托斯特尼筛法的时间复杂度是$\mathcal{O}(n\log \log n)$。它并不是线性的，所以我们有可能有一个线性的算法来完成这件事情么？
@@ -99,16 +99,63 @@ $$
 ## 2.加点骰子
 线性的筛法在理论上有着优异的渐进时间复杂度，这让人欣慰。很自然的，我们也希望拥有一个效率更高的单个数的素性测试的算法。这并不是一件容易的事，实际上素性测试究竟是不是$P$问题曾困扰了业界数十年。在这段时间里，人们于是退而求其次，开始寻求一些会“犯错”但却高效的算法。
 
-一个简单的算法源于费马小定理
->若$p$是一个素数，则对于任意的整数$a$，$1 \le a < p$，我们有
->$$ a^{n-1} \equiv 1 \pmod  p $$
+
+### 2.1.费马素性检验（Fermat primality test）
+一个简单的算法源于[费马小定理][fermat]
+>若$p$是一个素数，$a$是小于$p$的正整数，我们有
+>$$ a^{p-1} \equiv 1 \pmod  p $$
+
+于是很容易的我们可以设计出如下素性检验的算法
+{% highlight python %}
+def fermat(n, k):
+    # we always assume that n >= 2
+    if n <= 3:
+        return True
+    if n == 4:
+        return False
+
+    a = random.randint(2, n - 2)
+    for _ in range(0, k):
+        if power(a, n - 1, n) != 1:
+            return False
+    return True
+{% endhighlight %}
+其中$power(a, n-1, n)$会计算$a^{n-1} \pmod n$，我们使用了一个被称之为快速幂取模的算法，他可以在对数时间内计算出$a^{n-1} (\pmod n)$。受益于这个算法，费马素性检验算法的时间复杂度为$\mathcal{O}(\log n)$。
+
+费马小定理向我们保证了如果$n$是一个素数，那么算法总会回答“真”。但当$n$不是素数的时候，他却有可能犯错，一个可能的例子是$n = 341$，$a = 2$。
+
+我们希望这个犯错的概率尽可能小，一个简单的做法是，我们执行这个算法多次。然而一个叫做卡迈克尔（Carmichael）的人发现，有一些合数$n$非常的坏，对于任意跟$n$互素的整数$b$，都有$b^{n-1} \equiv 1 (\pmod n)$，例如$561$，现如今我们称之为卡迈克尔数（Carmichael number）。这种数的存在使得费马素性检验在某些情况下会变得非常不可靠，于是我们不得不尝试着去寻找一种新的算法。
+
+### 2.2.米勒-拉宾素性检验（Miller–Rabin primality test）
+在介绍新的算法之前，我们需要一些预备知识。
+
+>若$p$是一个素数，$a$是一个小于$p$的正整数，且有$a^2 \equiv 1 (\pmod p)$，则要么$a=1$，要么$a=p-1$。
+
+这个定理的证明相对容易，由于$a^2 \equiv 1 (\pmod p)$，我们知道$p$能够整除$(a+1)(a-1)$，而这会给出$a=1$或者$a=p-1$。
+
+那么，若$p$是一个奇素数，$a$是一个与$p$互素的整数，由费马小定理我们可以知道$a^{p-1} \equiv 1 \pmod  p$，由于$p$是一个奇数，那么它可以被写为$a^{2k} \equiv 1  (\pmod p)$对于某个整数$k$。由上面提到的定理我们有
+
+$$a^k \equiv 1  (\pmod p)$$
+
+或者
+
+$$a^k \equiv -1  (\pmod p)$$
+
+换言之，我们有如下定理
+> 令$p$为一个奇素数。记$p-1=2^kd$，其中$d$是奇数，$s$是一个正整数。令$a$为一个与$p$互素的整数，则下列两项至少有一项成立 \\
+> - $a^{2^kd}, a^{2^{k-1}d}, a^{2^{k-2}d},\cdots,a^d$中至少有一个与$-1$同余模$p$。 \\
+> - $a^d \equiv 1 (\pmod p)$。
+
+被称之为米勒-拉宾素性检验的算法便基于此定理，[这里][mr]有一个此算法的实现，它的时间复杂度与费马素性检验相同，均为$\mathcal{O}(\log n)$。这个算法是目前应用最广泛的算法。
 
 
 [pe]: https://projecteuler.net/
 [ftoa]: https://en.wikipedia.org/wiki/Fundamental_theorem_of_arithmetic
 [ld]: https://en.wikipedia.org/wiki/Logarithmic_distribution
-<!-- [esm]: 
+[fermat]: https://en.wikipedia.org/wiki/Fermat%27s_little_theorem
+[esm]: https://github.com/Myyura/Exercises/blob/master/classic_problems/primality_test/eratosthenes_sieve.py
+[mr]: https://github.com/Myyura/Exercises/blob/master/classic_problems/primality_test/miller_rabin.py
 
 线性的筛法在理论上有着优异的渐进时间复杂度，这让人欣慰。那么单个数的情况又怎么样呢？我们能有比$\matcal{O}(\sqrt{n})$更快的算法吗？或者更进一步，素性测试是一个$P$问题吗？
 
-这个问题曾困扰了业界数十年之久，直到2002年，$AKS$素性测试算法的横空出世才解决了这个问题。$AKS$算法具有非常重要的理论意义，但其在实际中的表现却不尽人意，因而我计划未来在某篇专项中详细介绍一下该算法。 -->
+这个问题曾困扰了业界数十年之久，直到2002年，$AKS$素性测试算法的横空出世才解决了这个问题。$AKS$算法具有非常重要的理论意义，但其在实际中的表现却不尽人意，因而我计划未来在某篇专项中详细介绍一下该算法。
