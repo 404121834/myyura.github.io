@@ -301,6 +301,7 @@ $d \mid k$部分的证明相比起来要容易一些，在这里我决定偷个�
 [mg]: https://en.wikipedia.org/wiki/Multiplicative_group_of_integers_modulo_n
 [field]: https://en.wikipedia.org/wiki/Field_(mathematics)
 [pr]: https://en.wikipedia.org/wiki/Polynomial_ring
+[a1]: https://myyura.github.io/2018/07/05/myyura-1.html
 [a2]: https://myyura.github.io/2018/08/03/number_theory_algorithms_for_AKS-1.html
 [ftoal]: https://en.wikipedia.org/wiki/Fundamental_theorem_of_algebra
 [lt]: https://en.wikipedia.org/wiki/Lagrange%27s_theorem_(group_theory)
